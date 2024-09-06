@@ -1,10 +1,9 @@
 package MyReview.Service;
 
+import MyReview.Common.Code;
 import MyReview.DTO.SignOnDTO;
 import MyReview.Entity.User;
-import MyReview.Repository.ReviewRepository;
 import MyReview.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,9 @@ public class SignService {
 
 
     public boolean signOn(SignOnDTO signOnDTO) {
-        String id = signOnDTO.getID();
-        String pw = signOnDTO.getPW();
-        String userName = signOnDTO.getUserName();
+        String id = signOnDTO.getUsername();
+        String pw = signOnDTO.getPassword();
+        String nickName = signOnDTO.getNickname();
 
         if (userRepository.existsByID(id)) {
             return false;
@@ -31,8 +30,8 @@ public class SignService {
         User user = new User();
         user.setID(id);
         user.setPW(bCryptPasswordEncoder.encode(pw));
-        user.setUserName(userName);
-        user.setAuth("ADMIN");
+        user.setNickName(nickName);
+        user.setAuth("ROLE_ADMIN");
 
         userRepository.save(user);
 

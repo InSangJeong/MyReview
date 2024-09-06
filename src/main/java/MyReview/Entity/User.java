@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -18,8 +20,15 @@ public class User {
     private Long seq;
     private String ID;
     private String PW;
-    private String userName;
+    private String nickName;
     private String Auth;
+
+    //TODO : Insert Add
+    private LocalDateTime regDateTime;
+    private String regID;
+    private LocalDateTime chgDateTime;
+    private String chgID;
+
 
     public User(){}
 

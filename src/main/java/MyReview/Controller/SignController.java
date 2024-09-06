@@ -1,5 +1,6 @@
 package MyReview.Controller;
 
+import MyReview.DTO.LoginDTO;
 import MyReview.DTO.SignOnDTO;
 import MyReview.Service.SignService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,4 +25,10 @@ public class SignController {
             return "FAIL";
         }
     }
+
+    @PostMapping("/login")
+    public String loginProcess(LoginDTO loginDTO) {
+        return "OK";
+    }
+
 }
