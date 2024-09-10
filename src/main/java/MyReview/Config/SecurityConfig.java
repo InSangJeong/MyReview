@@ -43,9 +43,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.cors((corsCustomizer) -> corsCustomizer.configurationSource(corsConfigurationSource()));
-
+         http.cors((corsCustomizer) -> corsCustomizer.configurationSource(corsConfigurationSource()));
 
         //불필요한 권한 제어는 Off처리
         http.csrf((auth) -> auth.disable());

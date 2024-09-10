@@ -23,9 +23,14 @@ public class stdResult {
         return jsonObject;
 
     }
-
+    public static stdResult Success(){
+        return new stdResult(0, "OK", null);
+    }
     public static stdResult NotSupport(){
         return new stdResult(-99, "Not Support", null);
+    }
+    public static stdResult Unauthorized(){
+        return new stdResult(401, "Unauthorized", "You don't have permission.");
     }
 
 }
