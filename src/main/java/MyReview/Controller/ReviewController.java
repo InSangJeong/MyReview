@@ -24,12 +24,12 @@ public class ReviewController {
         this.reviewRepository = reviewRepository;
     }
 
-    @GetMapping
+    @GetMapping("/getReviews")
     public List<Review> getAllReviews() {
         return reviewService.getAllReviews();
     }
 
-    @PostMapping
+    @PostMapping("/createReview")
     public stdResult createReview(@RequestBody ReviewDTO reviewDto){
         String name =  SecurityContextHolder.getContext().getAuthentication().getName();
         if (!Objects.equals(name, "admin"))
@@ -52,8 +52,6 @@ public class ReviewController {
             return new stdResult(-1, "Fail", "Unknown Reason.");
 
         return stdResult.Success();
-
-
     }
 
 }

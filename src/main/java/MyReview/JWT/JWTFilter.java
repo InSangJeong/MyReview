@@ -12,15 +12,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 public class JWTFilter extends OncePerRequestFilter {
     private JWTUtil jwtUtil;
     public JWTFilter(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
-
+    private static final List<String> EXCLUDED_PATH_PATTERNS = List.of(
+        "/",
+        "/login",
+        "/signon",
+        "/review/getReviews"
+    );
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // PermitALL 패스는 필터링을 하지 않음
+        String path = request.getRequestURI();
+        if (EXCLUDED_PATH_PATTERNS.stream().anyMatch(pattern -> path.matches(pattern))) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authorization = request.getHeader("Authorization");
         if (authorization == null || authorization.isBlank()) {
             filterChain.doFilter(request, response);

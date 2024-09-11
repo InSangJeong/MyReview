@@ -51,9 +51,11 @@ public class SecurityConfig {
         http.httpBasic((auth) -> auth.disable());
 
         //경로별 인가
+        //PermitALl 추가시 JWTFilter의 EXCLUDED_PATH_PATTERNS에도 추가 필요
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/login", "/", "/signon").permitAll()     //open
-                .requestMatchers("/admin").hasRole("ADMIN")                 //auth
+                .requestMatchers("/", "/login", "/signon").permitAll()  //main, login
+                .requestMatchers("/review/getReviews").permitAll()      //reviews
+                .requestMatchers("/admin", "/review/createReview").hasRole("ADMIN")           //auth
                 .anyRequest().authenticated());
 
         //사용자 정의 필터 추가
