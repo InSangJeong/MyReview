@@ -1,4 +1,4 @@
-package MyReview.Controller;
+package MyReview.Controller.Admin;
 
 import MyReview.Common.stdResult;
 import MyReview.DTO.ReviewDTO;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/review")
-public class ReviewController {
+@RequestMapping("/admin/review")
+public class ReviewAdminController {
     private ReviewService reviewService;
     private ReviewRepository reviewRepository;
 
-    public ReviewController(ReviewService reviewService, ReviewRepository reviewRepository) {
+    public ReviewAdminController(ReviewService reviewService, ReviewRepository reviewRepository) {
         this.reviewService = reviewService;
         this.reviewRepository = reviewRepository;
     }
@@ -38,8 +38,27 @@ public class ReviewController {
 
     @PostMapping("/createReview")
     public stdResult createReview(@RequestBody ReviewDTO reviewDto){
+        String name =  SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!Objects.equals(name, "admin"))
+            return stdResult.Unauthorized();
 
-        return stdResult.NotSupport();
+        if (!reviewDto.isValidateCreate())
+            return new stdResult(-10, "Wrong Params", "");
+
+        var review = Review.builder()
+                .categorySeq(reviewDto.getCategorySeq())
+                .subject(reviewDto.getSubject())
+                .text(reviewDto.getText())
+                .writer("admin") //temporary set
+                .regDateTime(LocalDateTime.now())
+                .openYN(true)
+                .build();
+
+        var result = reviewRepository.save(review);
+        if(result == null)
+            return new stdResult(-1, "Fail", "Unknown Reason.");
+
+        return stdResult.Success();
     }
 
 }

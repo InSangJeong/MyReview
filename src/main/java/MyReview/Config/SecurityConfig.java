@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/signon").permitAll()  //main, login
                 .requestMatchers("/review/getReviews").permitAll()      //reviews
                 .requestMatchers("/admin", "/review/createReview").hasRole("ADMIN")           //auth
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         //사용자 정의 필터 추가
