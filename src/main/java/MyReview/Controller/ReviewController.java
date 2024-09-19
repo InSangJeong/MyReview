@@ -25,7 +25,14 @@ public class ReviewController {
     }
 
     @GetMapping("/getReviews")
-    public List<Review> getAllReviews() {
+    public List<Review> getAllReviews(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit,
+            @RequestParam(value = "category", defaultValue = "0") int category) {
+        if (limit > 50)
+            limit = 50;
+
+
         return reviewService.getAllReviews();
     }
 
